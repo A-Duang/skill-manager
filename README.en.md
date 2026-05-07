@@ -5,7 +5,7 @@
 [![Rust](https://img.shields.io/badge/Rust-1.77+-orange.svg)](https://rustup.rs/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev/)
 
-[中文文档](README.zh.md)
+[中文文档](README.md)
 
 > One-stop cross-platform manager for AI Agent Skills across 23+ platforms.
 
