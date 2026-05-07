@@ -9,6 +9,8 @@
 
 > AI Agent Skill 跨平台管理器 —— 一站式管理 23+ 平台的 Skill
 
+**[📥 下载最新版本](https://github.com/A-Duang/skill-manager/releases/latest)**
+
 SkillManager 是一个基于 [Tauri 2.x](https://tauri.app/) 的轻量级桌面应用，帮你统一管理分布在各个 AI 平台上的 Agent Skill。它能自动扫描本地文件系统，识别已安装的 AI 平台（Claude Code、Cursor、Codex、Trae 等），通过直观的矩阵视图和一键操作来管理所有平台的 Skill。
 <img width="1800" height="1200" alt="image" src="https://github.com/user-attachments/assets/1c45c094-ca0d-4e1e-b4ff-656bb13d479a" />
 

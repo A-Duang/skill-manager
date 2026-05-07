@@ -9,6 +9,8 @@
 
 > One-stop cross-platform manager for AI Agent Skills across 23+ platforms.
 
+**[📥 Download Latest Release](https://github.com/A-Duang/skill-manager/releases/latest)**
+
 SkillManager is a lightweight desktop app built with [Tauri 2.x](https://tauri.app/) that unifies the management of Agent Skills scattered across different AI platforms. It automatically scans your local filesystem, detects installed AI platforms (Claude Code, Cursor, Codex, Trae, etc.), and lets you manage all Skills through an intuitive matrix view and one-click operations.
 
 ## Why SkillManager?
