@@ -261,7 +261,7 @@ export function InstallDialog() {
                       <span className="text-[12px] text-[#34c759] font-medium">{t('install.batchAllInstalled')}</span>
                     ) : (
                       <span className="text-[12px]" style={{ color: 'var(--fg-tertiary)' }}>
-                        {t('install.batchMissing')} {item.missing.length} {t('install.batchMissingUnit')}
+                        {t('install.batchMissing')} {item.missing?.length ?? 0} {t('install.batchMissingUnit')}
                       </span>
                     )
                   ) : (

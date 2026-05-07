@@ -16,6 +16,8 @@ interface AppState {
   skills: InstalledSkill[];
   stats: AppStats | null;
   config: AppConfig;
+  selectedPlatformFilter: string | null;
+  setPlatformFilter: (platformId: string | null) => void;
 
   // Loading states
   loading: {
@@ -70,6 +72,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   skills: [],
   stats: null,
   config: defaultConfig,
+  selectedPlatformFilter: null,
+  setPlatformFilter: (platformId) => set({ selectedPlatformFilter: platformId }),
 
   loading: {
     platforms: false,

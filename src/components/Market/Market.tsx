@@ -70,7 +70,7 @@ export function Market() {
       {fetched && !error && (
         <div className="mb-10">
           <div className="flex items-center gap-2 mb-5">
-            <h2 className="text-[17px] font-semibold" style={{ color: 'var(--fg)' }}>{t('market.searchResults')}</h2>
+            <h2 className="text-[17px] font-semibold" style={{ color: 'var(--fg)' }}>{t('market.skillsFound')}</h2>
             <span className="text-[13px] px-2 py-0.5 rounded-full" style={{ backgroundColor: 'var(--input-bg)', color: 'var(--fg-tertiary)' }}>
               {skills.length} {t('market.skillsFound')}
             </span>
