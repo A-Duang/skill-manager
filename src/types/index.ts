@@ -76,4 +76,5 @@ export interface AppConfig {
   platform_overrides: Record<string, string>;
   custom_platforms: CustomPlatform[];
   github_token: string;
+  skill_description_overrides: Record<string, string>;
 }

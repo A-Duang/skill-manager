@@ -108,9 +108,36 @@ pub async fn list_installed_skills() -> Result<Vec<InstalledSkill>, String> {
         }
     }
 
+    // Apply user description overrides (does not modify original SKILL.md files)
+    for skill in skills.values_mut() {
+        if let Some(override_desc) = config.skill_description_overrides.get(&skill.name) {
+            if !override_desc.is_empty() {
+                skill.description = override_desc.clone();
+            }
+        }
+    }
+
     let mut result: Vec<InstalledSkill> = skills.into_values().collect();
     result.sort_by(|a, b| a.name.cmp(&b.name));
     Ok(result)
+}
+
+#[command]
+pub async fn set_skill_description_override(skill_name: String, description: String) -> Result<(), String> {
+    let mut config = load_config_from_disk();
+    if description.is_empty() {
+        config.skill_description_overrides.remove(&skill_name);
+    } else {
+        config.skill_description_overrides.insert(skill_name, description);
+    }
+    crate::commands::config::save_config_to_disk(&config)
+}
+
+#[command]
+pub async fn delete_skill_description_override(skill_name: String) -> Result<(), String> {
+    let mut config = load_config_from_disk();
+    config.skill_description_overrides.remove(&skill_name);
+    crate::commands::config::save_config_to_disk(&config)
 }
 
 #[command]
