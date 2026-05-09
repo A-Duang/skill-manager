@@ -13,7 +13,6 @@ struct GitHubContent {
     #[serde(rename = "type")]
     content_type: String,
     path: String,
-    download_url: Option<String>,
 }
 
 #[derive(Deserialize)]
