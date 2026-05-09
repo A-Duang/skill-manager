@@ -59,6 +59,7 @@ const defaultConfig: AppConfig = {
   platform_overrides: {},
   custom_platforms: [],
   github_token: '',
+  skill_description_overrides: {},
 };
 
 export const useAppStore = create<AppState>((set, get) => ({

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAppStore } from '../../stores/appStore';
 import { useTranslation } from '../../i18n';
 import { invoke } from '@tauri-apps/api/core';
@@ -14,6 +14,9 @@ export function Dashboard() {
   const [editPlatform, setEditPlatform] = useState<DetectedPlatform | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [editingDesc, setEditingDesc] = useState<string | null>(null);
+  const [editingDescValue, setEditingDescValue] = useState('');
+  const descInputRef = useRef<HTMLInputElement>(null);
 
   const filteredByPlatform = selectedPlatform
     ? skills.filter((s) => s.agents.includes(selectedPlatform))
@@ -46,6 +49,27 @@ export function Dashboard() {
   const handleAddPlatform = () => {
     setEditPlatform(null);
     setAddDialogOpen(true);
+  };
+
+  const handleEditDesc = (skillName: string, currentDesc: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditingDesc(skillName);
+    setEditingDescValue(currentDesc);
+    setTimeout(() => descInputRef.current?.focus(), 50);
+  };
+
+  const handleSaveDesc = async (skillName: string) => {
+    try {
+      await invoke('set_skill_description_override', { skillName, description: editingDescValue.trim() });
+      await loadAll();
+    } catch (e) {
+      console.error('Failed to save description override:', e);
+    }
+    setEditingDesc(null);
+  };
+
+  const handleCancelDesc = () => {
+    setEditingDesc(null);
   };
 
   return (
@@ -155,15 +179,46 @@ export function Dashboard() {
             {filteredSkills.map((skill, i) => (
               <div
                 key={skill.name}
-                onClick={() => handleViewDetail(skill)}
-                className={`flex items-center justify-between px-7 py-5 cursor-pointer transition-colors ${
-                  i < filteredSkills.length - 1 ? 'border-b' : ''
-                }`}
+                onClick={() => editingDesc !== skill.name && handleViewDetail(skill)}
+                className={`flex items-center justify-between px-7 py-5 transition-colors group ${
+                  editingDesc !== skill.name ? 'cursor-pointer' : ''
+                } ${i < filteredSkills.length - 1 ? 'border-b' : ''}`}
                 style={{ borderColor: 'var(--separator)' }}
               >
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="text-[14px] font-medium truncate" style={{ color: 'var(--fg)' }}>{skill.name}</div>
-                  <div className="text-[12px] truncate mt-1" style={{ color: 'var(--fg-secondary)' }}>{skill.description || t('dashboard.noDescription')}</div>
+                  {editingDesc === skill.name ? (
+                    <div className="flex items-center gap-2 mt-1" onClick={(e) => e.stopPropagation()}>
+                      <input
+                        ref={descInputRef}
+                        value={editingDescValue}
+                        onChange={(e) => setEditingDescValue(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleSaveDesc(skill.name);
+                          if (e.key === 'Escape') handleCancelDesc();
+                        }}
+                        className="flex-1 px-2 py-0.5 border rounded text-[12px] focus:outline-none focus:ring-1 focus:ring-[#007aff]"
+                        style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--separator)', color: 'var(--fg)' }}
+                        placeholder={t('dashboard.descPlaceholder')}
+                      />
+                      <button onClick={() => handleSaveDesc(skill.name)} className="text-[11px] px-2 py-0.5 bg-[#007aff] text-white rounded hover:bg-[#0071e3]">{t('dashboard.save')}</button>
+                      <button onClick={handleCancelDesc} className="text-[11px] px-2 py-0.5 rounded" style={{ color: 'var(--fg-secondary)', backgroundColor: 'var(--input-bg)' }}>{t('dashboard.cancel')}</button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <span className="text-[12px] truncate" style={{ color: skill.description ? 'var(--fg-secondary)' : 'var(--fg-tertiary)' }}>
+                        {skill.description || t('dashboard.noDescription')}
+                      </span>
+                      <button
+                        onClick={(e) => handleEditDesc(skill.name, skill.description, e)}
+                        className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] px-1.5 py-0.5 rounded"
+                        style={{ color: 'var(--fg-tertiary)', backgroundColor: 'var(--input-bg)' }}
+                        title={t('dashboard.editDesc')}
+                      >
+                        ✎
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="flex gap-2 ml-6 flex-shrink-0">
                   {skill.agents.map((agent) => (

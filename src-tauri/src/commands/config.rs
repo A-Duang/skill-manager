@@ -61,11 +61,16 @@ pub async fn load_config() -> Result<AppConfig, String> {
     serde_json::from_str(&content).map_err(|e| format!("解析配置失败: {}", e))
 }
 
-#[command]
-pub async fn save_config(config: AppConfig) -> Result<(), String> {
+/// Synchronous config writer for internal use by other modules
+pub fn save_config_to_disk(config: &AppConfig) -> Result<(), String> {
     let path = config_path()?;
     let content =
-        serde_json::to_string_pretty(&config).map_err(|e| format!("序列化配置失败: {}", e))?;
+        serde_json::to_string_pretty(config).map_err(|e| format!("序列化配置失败: {}", e))?;
     fs::write(&path, content).map_err(|e| format!("写入配置失败: {}", e))?;
     Ok(())
+}
+
+#[command]
+pub async fn save_config(config: AppConfig) -> Result<(), String> {
+    save_config_to_disk(&config)
 }

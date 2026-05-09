@@ -84,6 +84,9 @@ pub struct AppConfig {
     /// GitHub Personal Access Token for API authentication (increases rate limit to 5000/hr)
     #[serde(default)]
     pub github_token: String,
+    /// User-supplied description overrides: skill_name -> chinese description (does not modify original SKILL.md)
+    #[serde(default)]
+    pub skill_description_overrides: HashMap<String, String>,
 }
 
 fn default_scope() -> String {
@@ -109,6 +112,7 @@ impl Default for AppConfig {
             platform_overrides: HashMap::new(),
             custom_platforms: Vec::new(),
             github_token: String::new(),
+            skill_description_overrides: HashMap::new(),
         }
     }
 }

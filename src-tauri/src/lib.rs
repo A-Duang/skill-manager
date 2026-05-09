@@ -34,6 +34,9 @@ pub fn run() {
             // Config commands
             load_config,
             save_config,
+            // Skill description overrides (does not modify original SKILL.md)
+            set_skill_description_override,
+            delete_skill_description_override,
             // GitHub API commands
             fetch_github_skills,
             install_github_skill,

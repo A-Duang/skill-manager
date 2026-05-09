@@ -27,6 +27,10 @@ export const translations = {
   'dashboard.noSkills': { zh: '暂无已安装的 Skill', en: 'No installed skills' },
   'dashboard.noSkillsForPlatform': { zh: '该平台暂无已安装的 Skill', en: 'No installed skills for this platform' },
   'dashboard.noDescription': { zh: '暂无描述', en: 'No description' },
+  'dashboard.editDesc': { zh: '编辑描述', en: 'Edit description' },
+  'dashboard.descPlaceholder': { zh: '输入中文描述...', en: 'Enter description...' },
+  'dashboard.save': { zh: '保存', en: 'Save' },
+  'dashboard.cancel': { zh: '取消', en: 'Cancel' },
 
   // Skill Detail
   'detail.selectHint': { zh: '请从列表中选择一个 Skill 查看详情', en: 'Select a skill from the list to view details' },
